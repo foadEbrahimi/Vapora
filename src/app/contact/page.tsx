@@ -1,180 +1,173 @@
-import { AnimatedSection } from '@/src/components/animated-section';
+import type { Metadata } from 'next';
+import { ArrowLeft, Clock, MapPin, Phone } from 'lucide-react';
+
 import { Footer } from '@/src/components/footer';
 import { Header } from '@/src/components/header';
-import { Button } from '@/src/components/ui/button';
-import { Clock, MapPin, MessageCircle, Navigation, Phone } from 'lucide-react';
+import { OpenStatus } from '@/src/components/open-status';
+import { site } from '@/src/data/site';
+
+export const metadata: Metadata = {
+  title: 'تماس و آدرس | ویپورا',
+  description:
+    'نشانی، شماره تلفن و ساعات کاری ویپورا در خیابان شریعتی تهران. فروش حضوری ویپ، جویس و لوازم جانبی. پیش از دیدار تماس بگیرید.',
+  alternates: { canonical: '/contact' },
+};
+
+const mapEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(
+  site.address
+)}&z=15&output=embed`;
 
 export default function ContactPage() {
   return (
-    <div className='min-h-screen flex flex-col'>
+    <div className='flex min-h-screen flex-col'>
       <Header />
 
-      <main className='flex-1'>
-        <section className='py-20 md:py-28 relative overflow-hidden'>
-          <div className='absolute inset-0 bg-linear-to-br from-background via-card to-background' />
-          <div className='absolute inset-0 smoke-overlay' />
-
-          <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-            <AnimatedSection>
-              <h1 className='text-5xl md:text-6xl font-bold text-foreground mb-6 uppercase tracking-tight'>
-                منتظر{' '}
-                <span className='text-primary text-glow-amber'>دیدار شما</span>{' '}
-                هستیم
-              </h1>
-            </AnimatedSection>
-            <AnimatedSection delay={100}>
-              <p className='text-xl text-muted-foreground max-w-2xl leading-relaxed mt-4'>
-                فروشگاه ما در خیابان شریعتی تهران قرار داره. خوشحال می‌شیم یه سر
-                به ما بزنید و از نزدیک تنوع و کیفیت محصولات رو بررسی کنید.
-                قدمتون روی چشم!
-              </p>
-            </AnimatedSection>
+      <main id='main' tabIndex={-1} className='flex-1 outline-none'>
+        <section className='contact-hero'>
+          <div className='wrap'>
+            <p className='eyebrow'>دیدار حضوری · خیابان شریعتی</p>
+            <h1 className='h-display contact-title'>
+              منتظر{' '}
+              <span className='underline-accent'>دیدار شما</span> هستیم
+            </h1>
+            <p className='lead contact-lead'>
+              فروشگاه ما در خیابان شریعتی تهران قرار داره. خوشحال میشیم یه سر
+              به ما بزنید و از نزدیک تنوع و کیفیت محصولات رو بررسی کنید.
+              قدمتون روی چشم!
+            </p>
+            <div className='contact-status'>
+              <OpenStatus className='text-[0.85rem]' />
+            </div>
           </div>
         </section>
 
-        <section className='py-20 relative overflow-hidden'>
-          <div className='absolute inset-0 smoke-overlay opacity-30' />
-          <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
-              {/* Map */}
-              <AnimatedSection direction='left'>
-                <div className='relative h-full'>
-                  <div className='absolute inset-0 bg-linear-to-br from-primary/10 to-accent/10 rounded-3xl blur-2xl -z-10' />
-                  <div className='rounded-3xl overflow-hidden border border-border/50 h-[400px] lg:h-[550px]'>
-                    <iframe
-                      src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3101.8976765432!2d-101.05423!3d39.39234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s475%20N%20Franklin%20Ave%2C%20Colby%2C%20KS%2067701!5e0!3m2!1sen!2sus!4v1234567890'
-                      width='100%'
-                      height='100%'
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading='lazy'
-                      referrerPolicy='no-referrer-when-downgrade'
-                      title='مکان فروشگاه'
-                      className='grayscale contrast-125'
-                    />
-                  </div>
+        <section className='contact-main'>
+          <div className='wrap contact-grid'>
+            <div className='contact-card'>
+              <h2 className='sr-only'>اطلاعات تماس و نشانی</h2>
+
+              <dl className='contact-rows'>
+                <div className='contact-row'>
+                  <dt>
+                    <MapPin className='h-4 w-4' aria-hidden='true' />
+                    نشانی
+                  </dt>
+                  <dd>
+                    <a
+                      href={site.mapsUrl}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      {site.address}
+                    </a>
+                  </dd>
                 </div>
-              </AnimatedSection>
 
-              {/* Contact Info */}
-              <div className='space-y-6'>
-                {/* Address */}
-                <AnimatedSection delay={100} direction='right'>
-                  <div className='glass-card rounded-2xl p-8 hover:glow-amber transition-all duration-300'>
-                    <div className='flex items-start gap-5'>
-                      <div className='rounded-xl bg-primary/10 p-4'>
-                        <MapPin className='h-7 w-7 text-primary' />
+                <div className='contact-row'>
+                  <dt>
+                    <Phone className='h-4 w-4' aria-hidden='true' />
+                    تلفن
+                  </dt>
+                  <dd>
+                    <a href={site.phoneHref} dir='ltr' className='num'>
+                      {site.phoneDisplay}
+                    </a>
+                    <p className='contact-detail'>
+                      اگه دنبال محصول خاصی هستید یا درباره موجودی سوالی دارید،
+                      با خیال راحت زنگ بزنید. بچههای ما آماده راهنمایی هستن.
+                    </p>
+                  </dd>
+                </div>
+
+                <div className='contact-row'>
+                  <dt>
+                    <Clock className='h-4 w-4' aria-hidden='true' />
+                    ساعت کاری
+                  </dt>
+                  <dd>
+                    <div className='contact-hours'>
+                      <div className='contact-hours-row'>
+                        <span>{site.hours.weekdays.label}</span>
+                        <span className='num'>
+                          {site.hours.weekdays.open} تا {site.hours.weekdays.close}
+                        </span>
                       </div>
-                      <div>
-                        <h3 className='font-bold text-foreground text-xl mb-3 uppercase tracking-wide'>
-                          آدرس ما
-                        </h3>
-                        <p className='text-muted-foreground text-lg leading-relaxed'>
-                          تهران، خیابان شریعتی، بالاتر از میرداماد، پلاک ۲۴۳
-                        </p>
+                      <div className='contact-hours-row'>
+                        <span>{site.hours.friday.label}</span>
+                        <span className='num'>
+                          {site.hours.friday.open} تا {site.hours.friday.close}
+                        </span>
                       </div>
                     </div>
-                  </div>
-                </AnimatedSection>
+                  </dd>
+                </div>
+              </dl>
 
-                {/* Phone */}
-                <AnimatedSection delay={200} direction='right'>
-                  <div className='glass-card rounded-2xl p-8 hover:glow-amber transition-all duration-300'>
-                    <div className='flex items-start gap-5'>
-                      <div className='rounded-xl bg-primary/10 p-4'>
-                        <Phone className='h-7 w-7 text-primary' />
-                      </div>
-                      <div>
-                        <h3 className='font-bold text-foreground text-xl mb-3 uppercase tracking-wide'>
-                          تماس تلفنی
-                        </h3>
-                        <a
-                          href='tel:02122223344'
-                          className='text-2xl text-primary hover:underline font-bold dir-ltr inline-block'
-                        >
-                          ۰۲۱-۲۲۲۲۳۳۴۴
-                        </a>
-                        <p className='text-muted-foreground mt-2 leading-relaxed'>
-                          اگه دنبال محصول خاصی هستید یا درباره موجودی سوالی
-                          دارید، با خیال راحت زنگ بزنید. بچه‌های ما آماده
-                          راهنمایی هستن.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </AnimatedSection>
+              <p className='contact-note'>
+                <strong>توجه:</strong> دوستان عزیز، در حال حاضر فروش ما فقط به
+                صورت حضوریه و امکان ثبت سفارش آنلاین یا ارسال با پیک رو نداریم.
+                تو فروشگاه میبینیمتون!
+              </p>
 
-                {/* Hours */}
-                <AnimatedSection delay={300} direction='right'>
-                  <div className='glass-card rounded-2xl p-8 hover:glow-amber transition-all duration-300'>
-                    <div className='flex items-start gap-5'>
-                      <div className='rounded-xl bg-primary/10 p-4'>
-                        <Clock className='h-7 w-7 text-primary' />
-                      </div>
-                      <div className='flex-1'>
-                        <h3 className='font-bold text-foreground text-xl mb-4 uppercase tracking-wide'>
-                          ساعات کاری
-                        </h3>
-                        <div className='space-y-3'>
-                          <div className='flex justify-between items-center py-2 border-b border-border/30'>
-                            <span className='text-muted-foreground'>
-                              شنبه تا پنجشنبه
-                            </span>
-                            <span className='text-foreground font-semibold'>
-                              ۹ صبح تا 21 شب
-                            </span>
-                          </div>
-                          <div className='flex justify-between items-center py-2'>
-                            <span className='text-muted-foreground'>
-                              جمعه‌ها
-                            </span>
-                            <span className='text-foreground font-semibold'>
-                              ۱۰ صبح تا 18 عصر
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </AnimatedSection>
-
-                <AnimatedSection delay={400}>
-                  <div className='text-sm text-muted-foreground px-4 leading-relaxed'>
-                    <strong className='text-foreground'>توجه:</strong> دوستان
-                    عزیز، در حال حاضر فروش ما فقط به صورت حضوریه و امکان ثبت
-                    سفارش آنلاین یا ارسال با پیک رو نداریم. تو فروشگاه
-                    می‌بینیمتون!
-                  </div>
-                </AnimatedSection>
+              <div className='contact-actions'>
+                <a
+                  href={site.mapsUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='btn btn-primary'
+                >
+                  مسیریابی
+                  <ArrowLeft className='arrow h-4 w-4' aria-hidden='true' />
+                </a>
+                <a href={site.phoneHref} className='btn btn-ghost'>
+                  تماس تلفنی
+                </a>
               </div>
             </div>
+
+            <figure className='contact-map'>
+              <iframe
+                src={mapEmbed}
+                title='مکان فروشگاه ویپورا'
+                loading='lazy'
+                referrerPolicy='no-referrer-when-downgrade'
+                allowFullScreen
+              />
+              <figcaption>
+                <span>نشانی روی نقشه</span>
+                <a
+                  href={site.mapsUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  باز کردن نقشه
+                  <ArrowLeft className='arrow h-3.5 w-3.5' aria-hidden='true' />
+                </a>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
-        {/* CTA */}
-        <AnimatedSection>
-          <section className='py-16 bg-card relative overflow-hidden'>
-            <div className='absolute inset-0 smoke-overlay' />
-            <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center'>
-              <MessageCircle className='h-12 w-12 text-primary mx-auto mb-6' />
-              <h2 className='text-3xl font-bold text-foreground mb-4 uppercase tracking-tight'>
+        <section className='contact-cta'>
+          <div className='wrap contact-cta-grid'>
+            <div>
+              <p className='eyebrow'>سوالی هست؟</p>
+              <h2 className='h-section mt-4'>
                 هنوز سوالی تو ذهنتون مونده؟
               </h2>
-              <p className='text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed'>
-                هر سوالی درباره دستگاه‌ها، طعم‌ها یا لوازم جانبی دارید، کافیه با
+              <p className='lead contact-cta-lead'>
+                هر سوالی درباره دستگاهها، طعمها یا لوازم جانبی دارید، کافیه با
                 ما تماس بگیرید یا حضوری تشریف بیارید. با کمال میل راهنماییتون
-                می‌کنیم.
+                میکنیم.
               </p>
-              <Button
-                size='lg'
-                asChild
-                className='rounded-full px-8 glow-amber text-lg'
-              >
-                <a href='tel:02122223344'>همین حالا تماس بگیرید</a>
-              </Button>
             </div>
-          </section>
-        </AnimatedSection>
+
+            <a href={site.phoneHref} className='btn btn-primary'>
+              همین حالا تماس بگیرید
+              <ArrowLeft className='arrow h-4 w-4' aria-hidden='true' />
+            </a>
+          </div>
+        </section>
       </main>
 
       <Footer />

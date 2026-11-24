@@ -1,107 +1,115 @@
+import { ArrowLeft, Clock, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
-import { Phone, MapPin, Clock } from 'lucide-react';
 
-import logo from '../../public/logo.svg';
-import Image from 'next/image';
+import { BrandMark } from '@/src/components/brand-mark';
+import { site } from '@/src/data/site';
+import { HOURS } from '@/src/lib/hours';
+
+const footerLinks = [
+  { href: '/', label: 'صفحه اصلی' },
+  { href: '/products', label: 'محصولات' },
+  { href: '/reviews', label: 'نظرات مشتریان' },
+  { href: '/about', label: 'درباره ما' },
+  { href: '/contact', label: 'تماس و آدرس' },
+];
 
 export function Footer() {
   return (
-    <footer className='border-t border-border/50 bg-card relative overflow-hidden'>
-      <div className='absolute inset-0 smoke-overlay pointer-events-none' />
-      <div className='relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-5'>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-10'>
-          {/* برند */}
-          <div className='space-y-4'>
-            <Link href='/' className='flex items-center gap-3'>
-              <Image src={logo} className='w-12 h-12' alt='vapora logo' />
+    <footer className='site-footer'>
+      <div className='wrap section-tight'>
+        <div className='footer-grid'>
+          <div>
+            <Link
+              href='/'
+              className='inline-flex items-center gap-2.5 text-foreground no-underline'
+            >
+              <BrandMark className='h-9 w-9' />
+              <span className='font-display text-[1.35rem] font-extrabold leading-none'>
+                ویپورا
+              </span>
             </Link>
-            <p className='text-muted-foreground text-sm leading-relaxed'>
-              فروشگاه تخصصی ویپ و تنباکوی شما در تهران. کیفیت بالا، قیمت منصفانه
-              و خدمات ویژه.
+            <p className='lead mt-4 max-w-[32ch] text-[0.9rem] leading-8'>
+              ویپ، جویس و لوازم جانبی. انتخاب حضوری، مشاوره واقعی و قیمت
+              منصفانه در خیابان شریعتی.
             </p>
+            <p className='meta mt-4'>فروش حضوری، ویژه افراد بالای ۲۱ سال.</p>
           </div>
 
-          {/* لینک‌های سریع */}
-          <div>
-            <h3 className='font-semibold text-foreground mb-4 tracking-wide'>
-              لینک‌های سریع
-            </h3>
-            <ul className='space-y-3'>
-              {['خانه', 'محصولات', 'نظرات', 'درباره', 'تماس'].map(item => {
-                const paths: Record<string, string> = {
-                  خانه: '/',
-                  محصولات: '/products',
-                  نظرات: '/reviews',
-                  درباره: '/about',
-                  تماس: '/contact',
-                };
-                return (
-                  <li key={item}>
-                    <Link
-                      href={paths[item]}
-                      className='text-muted-foreground hover:text-primary transition-colors text-sm'
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                );
-              })}
+          <nav aria-label='ناوبری پاورقی'>
+            <h2 className='text-[0.72rem] font-medium text-muted-foreground'>
+              فروشگاه
+            </h2>
+            <ul className='mt-4 space-y-2.5'>
+              {footerLinks.map(link => (
+                <li key={link.href}>
+                  <Link href={link.href} className='footer-link'>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* اطلاعات تماس */}
           <div>
-            <h3 className='font-semibold text-foreground mb-4 tracking-wide'>
-              تماس با ما
-            </h3>
-            <ul className='space-y-4 text-sm text-muted-foreground'>
-              <li className='flex items-start gap-3'>
-                <MapPin className='h-4 w-4 text-primary mt-0.5 shrink-0' />
-                <span>تهران، خیابان شریعتی، پلاک ۲۴۳</span>
-              </li>
-              <li className='flex items-center gap-3'>
-                <Phone className='h-4 w-4 text-primary shrink-0' />
-                <a
-                  href='tel:02122223344'
-                  className='hover:text-primary transition-colors'
-                >
-                  ۰۲۱-۲۲۲۲۳۳۴۴
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* ساعات کاری */}
-          <div>
-            <h3 className='font-semibold text-foreground mb-4 tracking-wide'>
-              ساعات کاری
-            </h3>
-            <ul className='space-y-3 text-sm text-muted-foreground'>
-              <li className='flex items-center gap-3'>
-                <Clock className='h-4 w-4 text-primary shrink-0' />
-                <span>شنبه تا پنج‌شنبه: 9:00 صبح – 21:00 شب</span>
-              </li>
-              <li className='pl-7'>جمعه: 10:00 صبح – 18:00 عصر</li>
-            </ul>
+            <h2 className='text-[0.72rem] font-medium text-muted-foreground'>
+              دیدار
+            </h2>
+            <address className='mt-4 space-y-3 not-italic'>
+              <a
+                href={site.mapsUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='footer-contact-link flex items-start gap-2.5 py-1 text-[0.85rem] leading-7 text-foreground no-underline transition-colors hover:text-[var(--accent-text)]'
+              >
+                <MapPin
+                  className='mt-1.5 h-3.5 w-3.5 shrink-0 text-[var(--accent-text)]'
+                  aria-hidden='true'
+                />
+                {site.address}
+              </a>
+              <a
+                href={site.phoneHref}
+                className='footer-contact-link flex items-center gap-2.5 py-1 text-[0.85rem] text-foreground no-underline transition-colors hover:text-[var(--accent-text)]'
+              >
+                <Phone
+                  className='h-3.5 w-3.5 shrink-0 text-[var(--accent-text)]'
+                  aria-hidden='true'
+                />
+                <span className='num' dir='ltr'>
+                  {site.phoneDisplay}
+                </span>
+              </a>
+              <div className='flex items-start gap-2.5 text-[0.85rem] leading-7 text-muted-foreground'>
+                <Clock
+                  className='mt-1.5 h-3.5 w-3.5 shrink-0 text-[var(--accent-text)]'
+                  aria-hidden='true'
+                />
+                <ul className='space-y-0.5'>
+                  {HOURS.map(hour => (
+                    <li key={hour.day}>
+                      {hour.day}: <span className='num'>{hour.time}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </address>
+            <Link href='/contact' className='link-arrow mt-5 text-[0.85rem]'>
+              دیدار حضوری
+              <ArrowLeft className='arrow h-4 w-4' aria-hidden='true' />
+            </Link>
           </div>
         </div>
 
-        <div className='border-t border-border/50 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground'>
-          <p>&copy; {new Date().getFullYear()} ویپورا. تمامی حقوق محفوظ است.</p>
-          <p className='text-xs px-4 py-2 bg-secondary/50 rounded-full'>
-            فروش محصولات تنباکو و ویپ فقط برای افراد بالای ۲۱ سال مجاز است.
-          </p>
-        </div>
-        <div className='relative flex items-center justify-center pt-2'>
+        <div className='flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-[var(--line)] pb-1 pt-5'>
+          <p className='meta'>ویپورا، ۱۴۰۵. تهران.</p>
+          <p className='meta'>فروش حضوری، بدون سفارش آنلاین.</p>
           <a
             href='https://foad-ebrahimi.ir'
             target='_blank'
             rel='noopener noreferrer'
-            className='group inline-flex items-center gap-2 text-xs font-medium text-gray-400 transition-all hover:text-primary dark:text-gray-500 dark:hover:text-primary'
+            className='footer-credit meta no-underline transition-colors hover:text-[var(--accent-text)]'
           >
-            <span className='h-px w-4 bg-linear-to-r from-transparent to-gray-300 transition-all group-hover:w-8 group-hover:to-primary dark:to-gray-600 dark:group-hover:to-primary' />
-            <span>طراحی و توسعه توسط فؤاد ابراهیمی</span>
-            <span className='h-px w-4 bg-linear-to-l from-transparent to-gray-300 transition-all group-hover:w-8 group-hover:to-primary dark:to-gray-600 dark:group-hover:to-primary' />
+            طراحی و توسعه: فؤاد ابراهیمی
           </a>
         </div>
       </div>
